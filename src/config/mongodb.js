@@ -1,11 +1,9 @@
-const MONGODB_URI = 'mongodb+srv://ldnguyen2901:dbnguyenld@cluster0.u87nt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-const DATABASE_NAME = 'Data_Practise';
-
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import { env } from '~/config/environment';
 
 let eduDatabaseInstance = null;
 
-const mongoClientInstance = new MongoClient(MONGODB_URI, {
+const mongoClientInstance = new MongoClient(env.MONGODB_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -18,7 +16,7 @@ export const CONNECT_DB = async () => {
   await mongoClientInstance.connect();
 
   // Kết nói thành công thì lấy ra database theo tên và gán ngược nó ali5 vào biến eduDatabaseInstance ở trên của chúng ta
-  eduDatabaseInstance = mongoClientInstance.db(DATABASE_NAME);
+  eduDatabaseInstance = mongoClientInstance.db(env.MONGODB_DATABASE);
 };
 
 // Function Ger_DB (không async) này có nhiệm vụ export ra cái Edu Database Instance sau khi đã connect thành công tới MongoDB để chúng ta sử dụng ở nhiều nơi khác nhau trong code.

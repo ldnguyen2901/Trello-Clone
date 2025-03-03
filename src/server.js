@@ -1,27 +1,27 @@
 import express from 'express';
 import exitHook from 'async-exit-hook';
-import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb';
+import { CONNECT_DB, CLOSE_DB } from '~/config/mongodb';
+import { env } from '~/config/environment';
+import { APIs_V1 } from '~/routes/v1';
 
 const START_SERVER = () => {
   const app = express();
-  const hostname = 'localhost';
-  const port = 8017;
 
-  app.get('/', async (req, res) => {
+  app.use('/v1', APIs_V1);
+
+  app.get('/', (req, res) => {
     // Test Absolute import mapOrder
-    console.log(await GET_DB().listCollections().toArray());
-
-    res.end('<h1>Hello World!</h1><hr>');
+    res.send('<h1>Hello World!</h1><hr>');
   });
 
-  app.listen(port, hostname, () => {
+  app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
-    console.log(`3. Welcome, It's running at http://${hostname}:${port}/`);
+    console.log(`3. Welcome back, ${env.AUTHOR}.\n   It's running at http://${env.APP_HOST}:${env.APP_PORT}/`);
   });
 
   //Thực hiện các tác vụ cleanup trước kh dừng server
   exitHook(() => {
-    console.log('\n4. Disconnecting from MongoDB Cloud Atlas...`);');
+    console.log('\n4. Server is shutting down...`);');
     CLOSE_DB().then(() => {
       console.log('5. Disconnected from MongoDB Cloud Atlas');
     });
