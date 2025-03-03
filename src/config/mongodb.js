@@ -28,3 +28,8 @@ export const GET_DB = () => {
   if (!eduDatabaseInstance) throw new Error('Database not connected');
   return eduDatabaseInstance;
 };
+
+// Đóng kết nối tới MongoDB Atlas khi cần
+export const CLOSE_DB = async () => {
+  await mongoClientInstance.close();
+};
