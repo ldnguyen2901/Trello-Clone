@@ -16,7 +16,7 @@ export const CONNECT_DB = async () => {
   await mongoClientInstance.connect();
 
   // Kết nói thành công thì lấy ra database theo tên và gán ngược nó ali5 vào biến eduDatabaseInstance ở trên của chúng ta
-  eduDatabaseInstance = mongoClientInstance.db(env.MONGODB_DATABASE);
+  eduDatabaseInstance = mongoClientInstance.db(env.DATABASE_NAME);
 };
 
 // Function Ger_DB (không async) này có nhiệm vụ export ra cái Edu Database Instance sau khi đã connect thành công tới MongoDB để chúng ta sử dụng ở nhiều nơi khác nhau trong code.
