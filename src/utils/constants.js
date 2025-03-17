@@ -1,0 +1,1 @@
+export const API_ROOT = 'httt://localhost:5173'
