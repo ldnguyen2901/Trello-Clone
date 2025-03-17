@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import ModeSelect from '../../components/ModeSelect';
+import ModeSelect from '../ModeSelect';
 function AppBar() {
   return (
     <Box
