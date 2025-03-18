@@ -15,6 +15,7 @@ import Badge from '@mui/material/Badge';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Tooltip from '@mui/material/Tooltip';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 
 function AppBar() {
   return (
@@ -51,7 +52,9 @@ function AppBar() {
           <Recent />
           <Starred />
           <Templates />
-          <Button variant='outlined'>Create</Button>
+          <Button variant='outlined' startIcon={<LibraryAddCheckIcon />}>
+            Create
+          </Button>
         </Box>
       </Box>
 
