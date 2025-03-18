@@ -12,13 +12,13 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import Button from '@mui/material/Button';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 const MENU_STYLE = {
-  color: 'primary.main',
-  bgcolor: 'white',
+  color: 'white',
+  bgcolor: 'transparent',
   border: 'none',
   paddingX: '5px',
   borderRadius: '4px',
   '& .MuiSvgIcon-root': {
-    color: 'primary.main',
+    color: 'white',
   },
   '&:hover': {
     bgcolor: 'primary.50',
@@ -36,7 +36,9 @@ function BoardBar() {
         justifyContent: 'space-between',
         gap: 2,
         overflowX: 'auto',
-        borderTop: '1px solid #00bfa5',
+        borderBottom: '1px solid white',
+        bgcolor: (theme) =>
+          theme.palette.mode === 'dark' ? '#34495e' : '#1976d2',
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -82,17 +84,27 @@ function BoardBar() {
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Button variant='outlined' startIcon={<PersonAddIcon />}>
+        <Button
+          variant='outlined'
+          startIcon={<PersonAddIcon />}
+          sx={{
+            color: 'white',
+            borderColor: 'white',
+            '&:hover': { borderColor: 'white' },
+          }}
+        >
           Invite
         </Button>
 
         <AvatarGroup
           max={6}
           sx={{
+            // gap:'10px',
             '& .MuiAvtar-root': {
               width: 34,
               height: 34,
               fontSize: 16,
+              border: 'none',
             },
           }}
         >
@@ -103,28 +115,52 @@ function BoardBar() {
             />
           </Tooltip>
           <Tooltip>
-            <Avatar alt='Travis Howard' src='https://picsum.photos/200/100' />
+            <Avatar
+              alt='Travis Howard'
+              src='https://picsum.photos/200/100'
+            />
           </Tooltip>
           <Tooltip>
-            <Avatar alt='Cindy Baker' src='https://picsum.photos/200/300' />
+            <Avatar
+              alt='Cindy Baker'
+              src='https://picsum.photos/200/300'
+            />
           </Tooltip>
           <Tooltip>
-            <Avatar alt='Agnes Walker' src='https://picsum.photos/200/400' />
+            <Avatar
+              alt='Agnes Walker'
+              src='https://picsum.photos/200/400'
+            />
           </Tooltip>
           <Tooltip>
-            <Avatar alt='Trevor Henderson' src='https://picsum.photos/200/500' />
+            <Avatar
+              alt='Trevor Henderson'
+              src='https://picsum.photos/200/500'
+            />
           </Tooltip>
           <Tooltip>
-            <Avatar alt='Trevor Henderson' src='https://picsum.photos/200/600' />
+            <Avatar
+              alt='Trevor Henderson'
+              src='https://picsum.photos/200/600'
+            />
           </Tooltip>
           <Tooltip>
-            <Avatar alt='Trevor Henderson' src='https://picsum.photos/200/700' />
+            <Avatar
+              alt='Trevor Henderson'
+              src='https://picsum.photos/200/700'
+            />
           </Tooltip>
           <Tooltip>
-            <Avatar alt='Trevor Henderson' src='https://picsum.photos/200/800' />
+            <Avatar
+              alt='Trevor Henderson'
+              src='https://picsum.photos/200/800'
+            />
           </Tooltip>
           <Tooltip>
-            <Avatar alt='Trevor Henderson' src='https://picsum.photos/200/900' />
+            <Avatar
+              alt='Trevor Henderson'
+              src='https://picsum.photos/200/900'
+            />
           </Tooltip>
         </AvatarGroup>
       </Box>

@@ -22,6 +22,7 @@ function Templates() {
   return (
     <Box>
       <Button
+        sx={{ color: 'white' }}
         id='basic-button-templates'
         aria-controls={open ? 'basic-menu-templates' : undefined}
         aria-haspopup='true'
@@ -40,7 +41,7 @@ function Templates() {
           'aria-labelledby': 'basic-button-templates',
         }}
       >
-         <MenuItem>
+        <MenuItem>
           <ListItemText inset>Single</ListItemText>
         </MenuItem>
         <MenuItem>

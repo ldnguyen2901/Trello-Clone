@@ -26,6 +26,7 @@ function Workspaces() {
   return (
     <Box>
       <Button
+        sx={{ color: 'white' }}
         id='basic-button-workspaces'
         aria-controls={open ? 'basic-menu-workspaces' : undefined}
         aria-haspopup='true'
@@ -49,7 +50,10 @@ function Workspaces() {
             <ContentCut fontSize='small' />
           </ListItemIcon>
           <ListItemText>Cut</ListItemText>
-          <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+          <Typography
+            variant='body2'
+            sx={{ color: 'text.secondary' }}
+          >
             ⌘X
           </Typography>
         </MenuItem>
@@ -58,7 +62,10 @@ function Workspaces() {
             <ContentCopy fontSize='small' />
           </ListItemIcon>
           <ListItemText>Copy</ListItemText>
-          <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+          <Typography
+            variant='body2'
+            sx={{ color: 'text.secondary' }}
+          >
             ⌘C
           </Typography>
         </MenuItem>
@@ -67,7 +74,10 @@ function Workspaces() {
             <ContentPaste fontSize='small' />
           </ListItemIcon>
           <ListItemText>Paste</ListItemText>
-          <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+          <Typography
+            variant='body2'
+            sx={{ color: 'text.secondary' }}
+          >
             ⌘V
           </Typography>
         </MenuItem>

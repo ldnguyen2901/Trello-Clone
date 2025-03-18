@@ -22,6 +22,7 @@ function Recent() {
   return (
     <Box>
       <Button
+        sx={{ color: 'white' }}
         id='basic-button-recent'
         aria-controls={open ? 'basic-menu-recent' : undefined}
         aria-haspopup='true'
@@ -40,7 +41,7 @@ function Recent() {
           'aria-labelledby': 'basic-button-recent',
         }}
       >
-         <MenuItem>
+        <MenuItem>
           <ListItemText inset>Single</ListItemText>
         </MenuItem>
         <MenuItem>
