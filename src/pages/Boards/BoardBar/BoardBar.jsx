@@ -11,6 +11,8 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Button from '@mui/material/Button';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+
+import { capitalizeFirstLetter } from '~/utils/formatters';
 const MENU_STYLE = {
   color: 'white',
   bgcolor: 'transparent',
@@ -24,7 +26,7 @@ const MENU_STYLE = {
     bgcolor: 'primary.50',
   },
 };
-function BoardBar() {
+function BoardBar({ board }) {
   return (
     <Box
       px={2}
@@ -44,7 +46,7 @@ function BoardBar() {
         <Chip
           sx={MENU_STYLE}
           icon={<DashboardIcon />}
-          label='Karama'
+          label={board?.title}
           clickable
           // onclick={() => {}}
         />
@@ -52,7 +54,7 @@ function BoardBar() {
         <Chip
           sx={MENU_STYLE}
           icon={<VpnLockIcon />}
-          label='Public/Private Workspaces'
+          label={capitalizeFirstLetter(board?.type)}
           clickable
           // onclick={() => {}}
         />
@@ -117,22 +119,13 @@ function BoardBar() {
             />
           </Tooltip>
           <Tooltip>
-            <Avatar
-              alt='Travis Howard'
-              src='https://picsum.photos/200/100'
-            />
+            <Avatar alt='Travis Howard' src='https://picsum.photos/200/100' />
           </Tooltip>
           <Tooltip>
-            <Avatar
-              alt='Cindy Baker'
-              src='https://picsum.photos/200/300'
-            />
+            <Avatar alt='Cindy Baker' src='https://picsum.photos/200/300' />
           </Tooltip>
           <Tooltip>
-            <Avatar
-              alt='Agnes Walker'
-              src='https://picsum.photos/200/400'
-            />
+            <Avatar alt='Agnes Walker' src='https://picsum.photos/200/400' />
           </Tooltip>
           <Tooltip>
             <Avatar
