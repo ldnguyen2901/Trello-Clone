@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import ModeSelect from '../ModeSelect';
+import ModeSelect from '../ModeSelect/ModeSelect';
 import { ReactComponent as TrelloIcon } from '~/assets/trello.svg';
 import SvgIcon from '@mui/material/SvgIcon';
 import Workspaces from './Menus/Workspaces';
