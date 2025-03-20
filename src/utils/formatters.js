@@ -5,9 +5,9 @@ export const capitalizeFirstLetter = (val) => {
 
 /**
  * Example:
- */
-const stringTest = 'nguyenwolf';
-const capString = capitalizeFirstLetter(stringTest);
+//  */
+// const stringTest = 'nguyenwolf';
+// const capString = capitalizeFirstLetter(stringTest);
 
-console.log('stringTest:', stringTest);
-console.log('capString:', capString);
+// console.log('stringTest:', stringTest);
+// console.log('capString:', capString);
