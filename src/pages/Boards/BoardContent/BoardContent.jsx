@@ -14,6 +14,7 @@ import {
   useSensors,
   DragOverlay,
   defaultDropAnimationSideEffects,
+  closestCorners,
 } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { useEffect, useState } from 'react';
@@ -150,7 +151,7 @@ function BoardContent({ board }) {
             (card) => card._id,
           );
         }
-        
+
         // Column mới
         if (nextOverColumn) {
           // Kiểm tra xem card đang kéo nó có tồn tại ở overCloumn chưa, nếu có thì cần xoá nó trước
@@ -159,7 +160,11 @@ function BoardContent({ board }) {
           );
 
           // Tiếp theo là thêm cái card đang kéo vào overColumn theo ví trí index mới
-          nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, activeDraggingCardData);
+          nextOverColumn.cards = nextOverColumn.cards.toSpliced(
+            newCardIndex,
+            0,
+            activeDraggingCardData,
+          );
 
           // Cập nhật lại mảng cardOrderIds cho chuẩn dữ liệu
           nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
@@ -233,7 +238,11 @@ function BoardContent({ board }) {
 
   return (
     <DndContext
+      // Cảm biến
       sensors={mySensors}
+      // Thuật toán phát hiện va chạm (nếu không có nó thì card với cover lớn sẽ không kéo qua Column được vì lúc này nó đang bị conflict giữa card và column), chúng ta sẽ dùng closestCorners thay vì closestCenter
+      // https://docs.dndkit.com/api-documentation/context-provider/collision-detection-algorithms
+      collisionDetection={closestCorners}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
