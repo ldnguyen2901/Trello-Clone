@@ -13,8 +13,14 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 function Card({ card }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: card._id, data: { ...card } });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: card._id, data: { ...card } });
 
   const dndKitCardStyles = {
     // touchAction: 'none', // Dành cho sensor default dạng PointerSensor
@@ -43,7 +49,14 @@ function Card({ card }) {
       sx={{
         cursor: 'pointer',
         boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
-        overflow: 'unset',
+        // // Options 1
+        // overflow: 'unset',
+        // opacity: card?.FE_PlaceholderCard ? '0' : '1',
+        // height: card?.FE_Placeholder ? '0px' : 'unset'
+
+        // Options 2
+        overflow: card?.FE_PlaceholderCard ? 'hidden' : 'none',
+        height: card?.FE_PlaceholderCard ? '0px' : 'unset',
       }}
     >
       {card?.cover && <CardMedia sx={{ height: 140 }} image={card?.cover} />}
