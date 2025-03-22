@@ -15,9 +15,9 @@ import {
   DragOverlay,
   defaultDropAnimationSideEffects,
   closestCorners,
-  closestCenter,
+  // closestCenter,
   pointerWithin,
-  rectIntersection,
+  // rectIntersection,
   getFirstCollision,
 } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
@@ -373,18 +373,27 @@ function BoardContent({ board }) {
       }
       // Tìm các điểm giao nhau, va chạm - intersections với con trỏ
       const pointerIntersections = pointerWithin(args);
-      // eslint-disable-next-line no-extra-boolean-cast
-      const intersections = !!pointerIntersections?.length
-        ? pointerIntersections
-        : rectIntersection(args);
-      let overId = getFirstCollision(intersections, 'id');
+
+      // Nếu pointerIntersections là mảng rỗng, return luôn và không làm gì hết
+      // Fix triệt để bug flickering của thư viên Dnd-Kit trong trường hợp:
+      // Kéo thả cái card có image cover lớn và kéo lên phía trên cùng ra khỏi khu vực kéo thả
+      if (!pointerIntersections?.length) return;
+
+      // No Need
+      // // eslint-disable-next-line no-extra-boolean-cast
+      // const intersections = !!pointerIntersections?.length
+      //   ? pointerIntersections
+      //   : rectIntersection(args);
+
+      // Tìm overId đầu tiên trong pointerIntersections ở trên
+      let overId = getFirstCollision(pointerIntersections, 'id');
       if (overId) {
-        // Nếu cái over nó là column thì sẽ tìm tới cái cardId gần nhất bên trong khu vực va chạm đó dựa vào thuật toán phát hiện va chạm closestCenter haoc85 closestZCorners đều được. Tuy nhiên ở đây dùng closestCenter mượn mà hơn
+        // Nếu cái over nó là column thì sẽ tìm tới cái cardId gần nhất bên trong khu vực va chạm đó dựa vào thuật toán phát hiện va chạm closestCenter hoặc closestCorners đều được. Tuy nhiên ở đây dùng closestCorners mượn mà hơn
         const checkColumn = orderedColumnsState.find((column) => {
           column._id === overId;
         });
         if (checkColumn) {
-          overId = closestCenter({
+          overId = closestCorners({
             ...args,
             droppableContainers: args.droppableContainers.filter(
               (containter) => {
