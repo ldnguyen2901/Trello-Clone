@@ -26,7 +26,6 @@ const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data);
     // console.log('validData:', validData);
-    
 
     const createdBoard = await GET_DB().collection(BOARD_COLLECTION_NAME).insertOne(validData);
     return createdBoard;
