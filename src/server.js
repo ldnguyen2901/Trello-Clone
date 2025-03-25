@@ -4,9 +4,13 @@ import { CONNECT_DB, CLOSE_DB } from '~/config/mongodb';
 import { env } from '~/config/environment';
 import { APIs_V1 } from '~/routes/v1';
 import { errorHandlingMiddleware } from '~/middlewares/errorHandlingMiddleware';
+import cors from 'cors';
+import { corsOptions } from './config/cors';
 
 const START_SERVER = () => {
   const app = express();
+
+  app.use(cors(corsOptions));
 
   // Enable req.body json data
   app.use(express.json());
@@ -23,7 +27,9 @@ const START_SERVER = () => {
 
   app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
-    console.log(`3. Welcome back, ${env.AUTHOR}.\n   It's running at http://${env.APP_HOST}:${env.APP_PORT}/`);
+    console.log(
+      `3. Welcome back, ${env.AUTHOR}.\n   It's running at http://${env.APP_HOST}:${env.APP_PORT}/`,
+    );
   });
 
   //Thực hiện các tác vụ cleanup trước kh dừng server
