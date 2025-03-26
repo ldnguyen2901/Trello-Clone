@@ -4,7 +4,8 @@ import Container from '@mui/material/Container';
 import AppBar from '~/components/AppBar/AppBar';
 import BoardBar from './BoardBar/BoardBar';
 import BoardContent from './BoardContent/BoardContent';
-import { mockData } from '~/apis/mock-data';
+
+// import { mockData } from '~/apis/mock-data';
 import { fetchBoardDetailsAPI } from '~/apis';
 
 function Board() {
@@ -12,7 +13,7 @@ function Board() {
 
   useEffect(() => {
     // Tạm thời fix cứng boardId, có thể sử dụng react-router-dom để lấy chuẩn boardId từ URL về
-    const boardId = '67c9c87eceb30a197f6235c1';
+    const boardId = '67e3f82def3100afbfbd0aaf';
 
     // Call API
     fetchBoardDetailsAPI(boardId).then((board) => {
