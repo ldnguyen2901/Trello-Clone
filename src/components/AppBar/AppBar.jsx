@@ -21,7 +21,6 @@ import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 
-
 function AppBar() {
   const [searchValue, setSearchValue] = useState('');
   return (
@@ -93,14 +92,16 @@ function AppBar() {
               </InputAdornment>
             ),
             endAdornment: (
-              <CloseIcon
-                fontSize='small'
-                sx={{
-                  color: searchValue ? 'white' : 'transparent',
-                  cursor: 'pointer',
-                }}
-                onClick={() => setSearchValue('')}
-              />
+              <InputAdornment position='end'>
+                <CloseIcon
+                  fontSize='small'
+                  sx={{
+                    color: searchValue ? 'white' : 'transparent',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => setSearchValue('')}
+                />
+              </InputAdornment>
             ),
           }}
           sx={{
@@ -125,19 +126,13 @@ function AppBar() {
         <ModeSelect />
 
         <Tooltip title='Notification'>
-          <Badge
-            color='warning'
-            variant='dot'
-            sx={{ cursor: 'pointer' }}
-          >
+          <Badge color='warning' variant='dot' sx={{ cursor: 'pointer' }}>
             <NotificationsNoneIcon sx={{ color: 'white' }} />
           </Badge>
         </Tooltip>
 
         <Tooltip title='Help'>
-          <HelpOutlineIcon
-            sx={{ color: 'white', cursor: 'pointer' }}
-          />
+          <HelpOutlineIcon sx={{ color: 'white', cursor: 'pointer' }} />
         </Tooltip>
 
         <Profiles />
