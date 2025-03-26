@@ -2,6 +2,7 @@ import { slugify } from '~/utils/formatters';
 import { boardModel } from '~/models/boardModel';
 import ApiError from '~/utils/ApiError';
 import { StatusCodes } from 'http-status-codes';
+import { cloneDeep } from 'lodash';
 
 const createNew = async (reqBody) => {
   try {
@@ -34,7 +35,28 @@ const getDetails = async (boardId) => {
     if (!board) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found');
     }
-    return board;
+
+    // Bước 1: Deep clone board ra một cái mới để xử lý, không ảnh ưởng tới board ban daj692, tuỳ mục đích về sau mà có cần clone hay không?
+    // JavaScript Primitive vs Reference Values
+    const resBoard = cloneDeep(board);
+
+    // Bước 2: Đưa card về đúng column
+    resBoard.columns.forEach((column) => {
+      // Cacg1 dybg2 .equals này là bởi vì ta hiểu ObjectId trong MongoDB có hỗ trợ phương thức .equals
+      column.cards = resBoard.cards.filter((card) =>
+        card.columnId.equals(column._id),
+      );
+
+      // // Các khác đơn giản là convert ObjectId về string bằng hàm toString của JavaScript
+      // column.cards = resBoard.cards.filter(
+      //   (card) => card.columnId.toString() === column._id.toString(),
+      // );
+    });
+
+    // Bước 3: Xoá mảng cards khỏi board ban đầu
+    delete resBoard.cards;
+
+    return resBoard;
   } catch (error) {
     throw error;
   }
