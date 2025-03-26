@@ -8,8 +8,8 @@ import Card from './ListColumns/Column/ListCards/Card/Card';
 import {
   DndContext,
   // PointerSensor,
-  MouseSensor,
-  TouchSensor,
+  // MouseSensor,
+  // TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
@@ -20,6 +20,7 @@ import {
   // rectIntersection,
   getFirstCollision,
 } from '@dnd-kit/core';
+import { MouseSensor, TouchSensor } from '~/customLibraries/DndKitSensors';
 import { arrayMove } from '@dnd-kit/sortable';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { cloneDeep, isEmpty } from 'lodash';
@@ -159,7 +160,9 @@ function BoardContent({ board }) {
         );
 
         // Xoá cái Placeholder Card nếu nó đang tồn tại
-        nextOverColumn.cards = nextOverColumn.cards.filter(card => !card.FE_PlaceholderCard)
+        nextOverColumn.cards = nextOverColumn.cards.filter(
+          (card) => !card.FE_PlaceholderCard,
+        );
 
         // Cập nhật lại mảng cardOrderIds cho chuẩn dữ liệu
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
