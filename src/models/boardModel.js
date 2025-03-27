@@ -87,8 +87,8 @@ const getDetails = async (id) => {
         },
       ])
       .toArray();
-    console.log('result:', result);
-    return result[0] || {};
+    // console.log('result:', result);
+    return result[0] || null;
 
     // return result;
   } catch (error) {
