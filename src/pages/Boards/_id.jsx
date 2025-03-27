@@ -12,6 +12,9 @@ import {
   createNewCardAPI,
 } from '~/apis';
 
+import { generatePlaceholderCard } from '~/utils/formatters';
+import { isEmpty } from 'lodash';
+
 function Board() {
   const [board, setBoard] = useState(null);
 
@@ -21,6 +24,14 @@ function Board() {
 
     // Call API
     fetchBoardDetailsAPI(boardId).then((board) => {
+      // Khi F5 lại trang Web thì cần xử lý vấn đề kéo thả vào một column rỗng
+      board.columns.forEach((column) => {
+        if (isEmpty(column.cards)) {
+          column.cards = [generatePlaceholderCard(column)];
+          column.cardOrderIds = [generatePlaceholderCard(column)._id];
+        }
+      });
+      console.log(board);
       setBoard(board);
     });
   }, []);
@@ -28,10 +39,20 @@ function Board() {
   // Func này có nhiệm vụ gọi API tạo mới Column và làm lại dữ liệu State Board
   const createNewColumn = async (newColumnData) => {
     const createdColumn = await createNewColumnAPI({
-      boardId: board._id,
       ...newColumnData,
+      boardId: board._id,
     });
-    console.log('createdColumn: ', createdColumn);
+    // Khi tạo column mới thì chưa có card, cần xử lý vấn đề kéo thả vào một column rỗng
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)];
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id];
+
+    // Cập nhật state board
+    // Phía FE ta phài tự làm đúng lại state data board (thay vì phải gọi lại api fetchBoardDetailsAPI)
+    // Lưu ý: cách làm này phụ thuộc vào tuỳ lựa chọn và đặc thù của dự án, có nơi thì BE sẽ hỗ trợ trả về luôn toàn bộ Board dù đây có là api tạo Column hay Card
+    const newBoard = { ...board };
+    newBoard.columns.push(createdColumn);
+    newBoard.columnOrderIds.push(createdColumn._id);
+    setBoard(newBoard);
   };
 
   // Func này có nhiệm vụ gọi API tạo mới Column và làm lại dữ liệu State Board
@@ -40,7 +61,20 @@ function Board() {
       boardId: board._id,
       ...newCardData,
     });
-    console.log('createdCard: ', createdCard);
+    // console.log('createdCard: ', createdCard);
+
+    // Cập nhật state board
+    // Phía FE ta phài tự làm đúng lại state data board (thay vì phải gọi lại api fetchBoardDetailsAPI)
+    // Lưu ý: cách làm này phụ thuộc vào tuỳ lựa chọn và đặc thù của dự án, có nơi thì BE sẽ hỗ trợ trả về luôn toàn bộ Board dù đây có là api tạo Column hay Card
+    const newBoard = { ...board };
+    const columnToUpdate = newBoard.columns.find(
+      (column) => column._id === createdCard.columnId,
+    );
+    if (columnToUpdate) {
+      columnToUpdate.cards.push(createdCard);
+      columnToUpdate.cardOrderIds.push(createdCard._id);
+    }
+    setBoard(newBoard);
   };
 
   return (

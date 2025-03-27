@@ -55,10 +55,16 @@ function Card({ card }) {
         // height: card?.FE_Placeholder ? '0px' : 'unset'
 
         // Options 2
-        overflow: card?.FE_PlaceholderCard ? 'hidden' : 'none',
-        height: card?.FE_PlaceholderCard ? '0px' : 'unset',
+        // overflow: card?.FE_PlaceholderCard ? 'hidden' : 'none',
+        // height: card?.FE_PlaceholderCard ? '0px' : 'unset',
 
-        border: '1px solid transparent',
+        // Options 3
+        opacity: card.FE_PlaceholderCard ? '0' : '1',
+        minWidth: card.FE_PlaceholderCard ? '280px' : 'unset',
+        pointerEvents: card.FE_PlaceholderCard ? 'none' : 'unset',
+        position: card.FE_PlaceholderCard ? 'fixed' : 'unset',
+
+        border: '0px solid transparent',
         '&:hover': { borderColor: (theme) => theme.palette.primary.main },
       }}
     >
