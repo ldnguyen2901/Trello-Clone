@@ -28,7 +28,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Opacity } from '@mui/icons-material';
 
-function Column({ column }) {
+function Column({ column, createNewCard }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -65,14 +65,21 @@ function Column({ column }) {
 
   const [newCardTitle, setNewCardTitle] = useState('');
 
-  const addNewCard = () => {
+  const addNewCard = async () => {
     if (!newCardTitle) {
       toast.error('Please enter Card Title!', { position: 'bottom-right' });
       return;
     }
     // console.log(newCardTitle);
     // Gọi API
-
+    const newCardData = { title: newCardTitle, columnId: column._id };
+    /**
+     * Gọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
+     * Lúc này ta có thể gọi luôn API ở đây là xong thay vì phải lần lượt gọi ngược lên nhựng compoent cha phía bên trên.
+     * (Đối với component con nằm càng sau thì càng khổ)
+     * Với việc sử dụng Redux như vậy thì code sẽ Clean chuẩn chỉnh hơn rất nhiều
+     */
+    await createNewCard(newCardData);
     // Đóng trạng thái thêm Card mới & Clear Input
     setOpenNewCardForm();
     setNewCardTitle('');

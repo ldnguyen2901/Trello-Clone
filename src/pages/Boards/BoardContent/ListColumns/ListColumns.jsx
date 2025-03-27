@@ -12,19 +12,27 @@ import {
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
   const toggleOpenNewColumnForm = () =>
     setOpenNewColumnForm(!openNewColumnForm);
 
   const [newColumnTitle, setNewColumnTitle] = useState('');
 
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error('Please enter Column Title!', { position: 'bottom-left' });
       return;
     }
-    // console.log(newColumnTitle);
+    // Tạo dữ liệu Column để gọi API
+    const newColumnData = { title: newColumnTitle };
+    /**
+     * Gọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
+     * Lúc này ta có thể gọi luôn API ở đây là xong thay vì phải lần lượt gọi ngược lên nhựng compoent cha phía bên trên.
+     * (Đối với component con nằm càng sau thì càng khổ)
+     * Với việc sử dụng Redux như vậy thì code sẽ Clean chuẩn chỉnh hơn rất nhiều
+     */
+    await createNewColumn(newColumnData);
     // Gọi API
 
     // Đóng trạng thái thêm Column mới & Clear Input
@@ -53,7 +61,7 @@ function ListColumns({ columns }) {
         }}
       >
         {columns?.map((column) => {
-          return <Column key={column._id} column={column} />;
+          return <Column key={column._id} column={column} createNewCard={createNewCard} />;
         })}
 
         {/* Box Add new column CTA */}
