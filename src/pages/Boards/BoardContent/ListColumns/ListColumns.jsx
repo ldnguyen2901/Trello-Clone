@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Column from './Column/Column';
 import Button from '@mui/material/Button';
+import { toast } from 'react-toastify';
 
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,7 +12,6 @@ import {
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-
 function ListColumns({ columns }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
   const toggleOpenNewColumnForm = () =>
@@ -20,8 +20,8 @@ function ListColumns({ columns }) {
   const [newColumnTitle, setNewColumnTitle] = useState('');
 
   const addNewColumn = () => {
-    if(!newColumnTitle){
-      // console.error('Please enter Column Title!');
+    if (!newColumnTitle) {
+      toast.error('Please enter Column Title!', { position: 'bottom-left' });
       return;
     }
     // console.log(newColumnTitle);

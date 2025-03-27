@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
@@ -66,7 +67,7 @@ function Column({ column }) {
 
   const addNewCard = () => {
     if (!newCardTitle) {
-      // console.error('Please enter Card Title!');
+      toast.error('Please enter Card Title!', { position: 'bottom-right' });
       return;
     }
     // console.log(newCardTitle);
@@ -216,7 +217,7 @@ function Column({ column }) {
                 size='small'
                 variant='outlined'
                 autoFocus
-                data-no-dnd ='true'
+                data-no-dnd='true'
                 value={newCardTitle}
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 sx={{
@@ -249,6 +250,7 @@ function Column({ column }) {
                   variant='contrained'
                   color='success'
                   size='small'
+                  data-no-dnd='true'
                   sx={{
                     boxShadow: 'none',
                     border: '0.5px solid',
