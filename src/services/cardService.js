@@ -1,5 +1,6 @@
-import { slugify } from '~/utils/formatters';
+// import { slugify } from '~/utils/formatters';
 import { cardModel } from '~/models/cardModel';
+import { columnModel } from '~/models/columnModel';
 
 const createNew = async (reqBody) => {
   try {
@@ -16,7 +17,14 @@ const createNew = async (reqBody) => {
     const getNewCard = await cardModel.findOneById(createdCard.insertedId);
     // console.log(getNewCard);
 
-    // ...
+    //
+    if (getNewCard) {
+      // Xử lý cấu trúc data ở đây trước khi trả dữ liệu về
+      getNewCard.card = [];
+
+      // Cập nhật mảng cardOrderIds trong collection boards
+      await columnModel.pushCardOrderIds(getNewCard);
+    }
 
     // Trả kết quả về, trong Service luôn phải có return
     return getNewCard;

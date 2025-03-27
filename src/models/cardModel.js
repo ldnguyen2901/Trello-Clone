@@ -28,10 +28,18 @@ const createNew = async (data) => {
     const validData = await validateBeforeCreate(data);
     // console.log('validData:', validData);
 
-    const createdBoard = await GET_DB()
+    // Biến đổi một số dữ liệu liên quan tới ObjectId chuẩn chỉnh
+    const newCardToAdd = {
+      ...validData,
+      boardId: new ObjectId(validData.boardId),
+      columnId: new ObjectId(validData.columnId), //
+
+    };
+
+    const createdCard = await GET_DB()
       .collection(CARD_COLLECTION_NAME)
-      .insertOne(validData);
-    return createdBoard;
+      .insertOne(newCardToAdd);
+    return createdCard;
   } catch (error) {
     throw new Error(error);
   }
