@@ -19,7 +19,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
 
   const [newColumnTitle, setNewColumnTitle] = useState('');
 
-  const addNewColumn = async () => {
+  const addNewColumn = () => {
     if (!newColumnTitle) {
       toast.error('Please enter Column Title!', { position: 'bottom-left' });
       return;
@@ -32,7 +32,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
      * (Đối với component con nằm càng sau thì càng khổ)
      * Với việc sử dụng Redux như vậy thì code sẽ Clean chuẩn chỉnh hơn rất nhiều
      */
-    await createNewColumn(newColumnData);
+    createNewColumn(newColumnData);
     // Gọi API
 
     // Đóng trạng thái thêm Column mới & Clear Input
@@ -61,7 +61,13 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
         }}
       >
         {columns?.map((column) => {
-          return <Column key={column._id} column={column} createNewCard={createNewCard} />;
+          return (
+            <Column
+              key={column._id}
+              column={column}
+              createNewCard={createNewCard}
+            />
+          );
         })}
 
         {/* Box Add new column CTA */}

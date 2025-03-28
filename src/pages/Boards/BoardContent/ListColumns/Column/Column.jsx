@@ -22,7 +22,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 
 import ListCards from './ListCards/ListCards';
-import { mapOrder } from '~/utils/sorts';
+// import { mapOrder } from '~/utils/sorts';
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -58,14 +58,15 @@ function Column({ column, createNewCard }) {
     opacity: isDragging ? 0.5 : undefined,
   };
 
-  const orderedCard = mapOrder(column?.cards, column?.cardOrderIds, '_id');
+  // Cards đã được sắp xếp ở component cha cao nhất (boards/_id.jsx)
+  const orderedCard = column.cards;
 
   const [openNewCardForm, setOpenNewCardForm] = useState(false);
   const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm);
 
   const [newCardTitle, setNewCardTitle] = useState('');
 
-  const addNewCard = async () => {
+  const addNewCard = () => {
     if (!newCardTitle) {
       toast.error('Please enter Card Title!', { position: 'bottom-right' });
       return;
@@ -79,7 +80,7 @@ function Column({ column, createNewCard }) {
      * (Đối với component con nằm càng sau thì càng khổ)
      * Với việc sử dụng Redux như vậy thì code sẽ Clean chuẩn chỉnh hơn rất nhiều
      */
-    await createNewCard(newCardData);
+    createNewCard(newCardData);
     // Đóng trạng thái thêm Card mới & Clear Input
     setOpenNewCardForm();
     setNewCardTitle('');
