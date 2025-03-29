@@ -18,10 +18,12 @@ import {
   updateBoardDetailsAPI,
   updateColumnDetailsAPI,
   moveCardToDifferentColumnAPI,
+  deleteColumnDetailsAPI,
 } from '~/apis';
 
 import { generatePlaceholderCard } from '~/utils/formatters';
 import { isEmpty } from 'lodash';
+import { toast } from 'react-toastify';
 
 function Board() {
   const [board, setBoard] = useState(null);
@@ -172,6 +174,23 @@ function Board() {
     });
   };
 
+  const deleteColumnDetails = (columnId) => {
+    // Update lại cho chuẩn dữ liệu state board
+    const newBoard = { ...board };
+    newBoard.columns = newBoard.columns.filter(
+      (column) => column._id !== columnId,
+    );
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(
+      (_id) => _id !== columnId,
+    );
+    setBoard(newBoard);
+
+    // Gọi API xử lý phía BE update board
+    deleteColumnDetailsAPI(columnId).then((res) => {
+      toast.success(res?.deleteResult, { position: 'bottom-right' });
+    });
+  };
+
   if (!board) {
     return (
       <Box
@@ -201,6 +220,7 @@ function Board() {
         moveColumns={moveColumns}
         moveCardInTheSameColumns={moveCardInTheSameColumns}
         moveCardToDifferentColumn={moveCardToDifferentColumn}
+        deleteColumnDetails={deleteColumnDetails}
       />
     </Container>
   );
