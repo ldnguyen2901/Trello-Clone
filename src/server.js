@@ -26,12 +26,23 @@ const START_SERVER = () => {
     res.send('<h1>Hello World!</h1><hr>');
   });
 
-  app.listen(env.APP_PORT, env.APP_HOST, () => {
-    // eslint-disable-next-line no-console
-    console.log(
-      `3. Welcome back, ${env.AUTHOR}.\n   It's running at http://${env.APP_HOST}:${env.APP_PORT}/`,
-    );
-  });
+  // Môi trường Production
+  if (env.BUILD_MODE === 'production') {
+    app.listen(process.env.PORT, () => {
+      // eslint-disable-next-line no-console
+      console.log(
+        `3.Production: ${env.AUTHOR}.\n   It's running at Port: ${process.env.PORT}`,
+      );
+    });
+  } else {
+    // Môi trường Local Dev
+    app.listen(env.LOCAL_DEV_APP_HOSTPORT, env.LOCAL_DEV_APP_HOSTHOST, () => {
+      // eslint-disable-next-line no-console
+      console.log(
+        `3. Welcome back, ${env.AUTHOR}.\n   It's running at http://${env.LOCAL_DEV_APP_HOST}:${env.LOCAL_DEV_APP_PORT}/`,
+      );
+    });
+  }
 
   //Thực hiện các tác vụ cleanup trước kh dừng server
   exitHook(() => {
