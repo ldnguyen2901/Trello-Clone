@@ -37,6 +37,7 @@ function BoardContent({
   createNewCard,
   moveColumns,
   moveCardInTheSameColumns,
+  moveCardToDifferentColumn,
 }) {
   // https://docs.dndkit.com/api-documentation/sensors
   // const pointerSensor = useSensor(PointerSensor, {
@@ -70,7 +71,7 @@ function BoardContent({
 
   useEffect(() => {
     // Columns đã được sắp xếp ở component cha cao nhất (boards/_id.jsx)
-    const orderedColumns = board.columns
+    const orderedColumns = board.columns;
     setOrderColumnsState(orderedColumns);
   }, [board]);
 
@@ -82,7 +83,7 @@ function BoardContent({
     );
   };
 
-  // Function chung xử lý việc cập nhật lại state trong trường hợp di chuyển Card giửa các Column khác nhau
+  // Khởi tạo Function chung xử lý việc cập nhật lại state trong trường hợp di chuyển Card giửa các Column khác nhau
   const moveCardBetweenDifferentColumns = (
     overColumn,
     overCardId,
@@ -91,6 +92,7 @@ function BoardContent({
     activeColumn,
     activeDraggingCardId,
     activeDraggingCardData,
+    triggerFrom,
   ) => {
     setOrderColumnsState((prevColumns) => {
       // Tìm vị trí (index) của cái overCard trong column đích (nơi activeCard sắp được thả)
@@ -173,6 +175,23 @@ function BoardContent({
         );
       }
 
+      // Nếu function này được gọi từ handleDragEnd nghĩa là đã kéo thả xong, lúc này mới xử lý gọi API 1 lần ở đây
+      if (triggerFrom === 'handleDragEnd') {
+        /**
+         * result function moveCardToDifferentColumn nằm ở component cha cao nhất (boards/_id.jsx)
+         * Lúc này ta có thể gọi luôn API ở đây là xong thay vì phải lần lượt gọi ngược lên nhựng compoent cha phía bên trên.
+         * (Đối với component con nằm càng sau thì càng khổ)
+         * Với việc sử dụng Redux như vậy thì code sẽ Clean chuẩn chỉnh hơn rất nhiều
+         */
+        // Phải dùng tới activeDragItemData.columnId hoặc tốt nhất là oldColumnWhenDraggingCard._id (set vào state từ bước handleDragStart) chứ không phải activeData trong scope handleDragEnd này vì sau khi đi qua onDragOver và tới đây là state của card đã bị cập nhật một lần rồi
+        moveCardToDifferentColumn(
+          activeDraggingCardId,
+          oldColumnWhenDraggingCard._id,
+          nextOverColumn._id,
+          nextColumns,
+        );
+      }
+
       return nextColumns;
     });
   };
@@ -235,6 +254,7 @@ function BoardContent({
         activeColumn,
         activeDraggingCardId,
         activeDraggingCardData,
+        'handleDragOver',
       );
     }
   };
@@ -285,6 +305,7 @@ function BoardContent({
           activeColumn,
           activeDraggingCardId,
           activeDraggingCardData,
+          'handleDragEnd',
         );
       } else {
         // console.log('Hành động kéo thả card trong cùng 1 column');
