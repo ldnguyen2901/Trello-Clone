@@ -36,7 +36,7 @@ const START_SERVER = () => {
     });
   } else {
     // Môi trường Local Dev
-    app.listen(env.LOCAL_DEV_APP_HOSTPORT, env.LOCAL_DEV_APP_HOSTHOST, () => {
+    app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
       // eslint-disable-next-line no-console
       console.log(
         `3. Welcome back, ${env.AUTHOR}.\n   It's running at http://${env.LOCAL_DEV_APP_HOST}:${env.LOCAL_DEV_APP_PORT}/`,
